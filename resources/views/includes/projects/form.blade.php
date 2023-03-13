@@ -1,6 +1,4 @@
 
-
-
 @if ($project->exists)
     <form class="card bg-secondary text-light p-5" action="{{ route('admin.projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
         @method('PUT')
@@ -27,7 +25,7 @@
             </div>
             @enderror
         </div>
-        <div class="offset-4 col-4 d-flex flex-column">
+        <div class="col-6 px-5 d-flex flex-column">
             <label class="text-start mb-2" for="type_id">Type</label>
             <select class="form-control mb-3" name="type_id" id="type_id">
                 <option value="">No type</option>
@@ -35,6 +33,17 @@
                     <option @if(old('type_id', $project->type?->id) == $type->id) selected @endif value="{{$type->id}}">{{$type->label}}</option>
                 @endforeach
             </select>
+        </div>
+        <div class="col-6 px-5 d-flex flex-column">
+            <label class="text-start mb-2">Technologies</label>
+            <div class="row gy-3 px-5">
+                @foreach ( $technologies as $technology )
+                    <div class="col-3 form-check text-start">
+                        <input class="form-check-input" type="checkbox" value="{{ $technology->id }}" id="{{ $technology->id }}" name="technologies[]" @if (in_array(($technology->id), old('technologies', $project_technologies ?? []))) checked @endif >
+                        <label class="form-check-label" for="{{ $technology->id }}">{{ $technology->name }}</label>
+                    </div>
+                @endforeach
+            </div>
         </div>
         <div class="col-12 px-5 d-flex flex-column mb-3">
             <label class="text-start mb-2" for="description">Project Description</label>
