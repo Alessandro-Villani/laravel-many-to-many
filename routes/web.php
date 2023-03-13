@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\ProjectController;
 use App\Http\Controllers\admin\HomeController as AdminHomeController;
+use App\Http\Controllers\admin\TechnologyController;
 use App\Http\Controllers\admin\TypeController;
 use App\Http\Controllers\guest\HomeController as GuestHomeController;
 use App\Http\Controllers\ProfileController;
@@ -27,6 +28,7 @@ Route::middleware(['auth', 'verified'])->name('admin.')->prefix('/admin')->group
     Route::get('/projects/trash', [ProjectController::class, 'trash'])->name('projects.trash.index');
     Route::resource('projects', ProjectController::class);
     Route::resource('types', TypeController::class);
+    Route::resource('technologies', TechnologyController::class);
 });
 
 
