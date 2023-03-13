@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Technology;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use App\Models\Type;
@@ -41,9 +42,10 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::orderBy('id')->get();
+        $technologies = Technology::orderBy('id')->get();
         $project = new Project();
 
-        return view('admin.projects.create', compact('project', 'types'));
+        return view('admin.projects.create', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -94,8 +96,11 @@ class ProjectController extends Controller
     public function edit(int $id)
     {
         $types = Type::orderBy('id')->get();
+        $technologies = Technology::orderBy('id')->get();
         $project = Project::withTrashed()->findOrFail($id);
-        return view('admin.projects.edit', compact('project', 'types'));
+        $project_technologies = $project->technologies->pluck('id')->toArray();
+
+        return view('admin.projects.edit', compact('project', 'types', 'technologies', 'project_technologies'));
     }
 
     /**
