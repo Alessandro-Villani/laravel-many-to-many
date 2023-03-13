@@ -7,9 +7,16 @@
 <div class="container py-5 text-center">
     <h1 class="mb-5">PROJECT OVERVIEW</h1>
     <div class="card bg-dark text-light p-5 mb-5">
-        <div class="project-title d-flex align-items-center justify-content-center mb-3">
+        <div class="project-title d-flex align-items-center justify-content-center mb-1">
             <h3>{{ ucfirst($project->name) }}</h3>
             @if($project->type) <span class="badge rounded-pill p-2 ms-3" style="background-color: {{ $project->type->color }}">{{ $project->type->label }}</span>@endif
+        </div>
+        <div class="technologies d-flex m-auto mb-5">
+            @forelse ($project->technologies as $technology)
+                    <div class="text-center me-3" style="color: {{ $technology->color }}"><h4 class="mb-0">{!! $technology->icon !!}</h4></div>
+            @empty
+
+            @endforelse
         </div>
         <div class="card-top clearfix text-start mb-5">
             <img class="float-start d-block me-3 img-fluid" src="{{ $project->getImageUrl() }}" alt="{{ $project->name }}">
