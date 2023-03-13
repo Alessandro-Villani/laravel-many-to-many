@@ -176,5 +176,13 @@ class ProjectController extends Controller
         return view('admin.projects.trash.index', compact('projects'));
     }
 
+
+    public function restore(int $id)
+    {
+        $project = Project::onlyTrashed()->findOrFail($id);
+        $project->restore();
+        return to_route('admin.projects.index')->with('message', "Il progetto <strong>" . strtoupper($project->name) . "</strong> è stato ripristinato con successo")->with('type', 'success');
+    }
+
     //TODO restore and permanently delete functions
 }
