@@ -184,5 +184,5 @@ class ProjectController extends Controller
         return to_route('admin.projects.index')->with('message', "Il progetto <strong>" . strtoupper($project->name) . "</strong> è stato ripristinato con successo")->with('type', 'success');
     }
 
-    //TODO restore and permanently delete functions
+    //TODO permanently delete functions
 }
