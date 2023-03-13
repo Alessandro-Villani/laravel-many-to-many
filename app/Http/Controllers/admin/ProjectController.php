@@ -9,6 +9,7 @@ use App\Models\Technology;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use App\Models\Type;
+use Illuminate\Support\Arr;
 
 class ProjectController extends Controller
 {
@@ -78,6 +79,8 @@ class ProjectController extends Controller
         $new_project->fill($data);
         $new_project->save();
 
+        if (Arr::exists($data, 'technologies')) $new_project->technologies()->attach($data['technologies']);
+
         return to_route('admin.projects.show', $new_project->id)->with('message', "Il progetto <strong>" . strtoupper($new_project->name) . "</strong> è stato aggiunto con successo")->with('type', 'success');
     }
 
@@ -128,6 +131,9 @@ class ProjectController extends Controller
         $project->fill($data);
         $project->save();
 
+        if (Arr::exists($data, 'technologies')) $project->technologies()->sync($data['technologies']);
+        else if (count($project->technologies)) $project->technologies()->detach();
+
         return to_route('admin.projects.show', $project->id)->with('message', "Il progetto <strong>" . strtoupper($project->name) . "</strong> è stato modificato con successo")->with('type', 'success');
     }
 
@@ -138,6 +144,8 @@ class ProjectController extends Controller
     {
 
         if ($project->hasUploadedImage()) Storage::delete($project->image_url);
+
+        if (count($project->technologies)) $project->technologies()->detach();
 
         $project->delete();
 
