@@ -16,7 +16,7 @@
                 </li>
                 @auth
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs("admin.home") ? 'active' : '' }}" href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a>
+                    <a class="nav-link {{ request()->routeIs("admin.home") || request()->routeIs("admin.user_details.*") ? 'active' : '' }}" href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs("admin.projects.*") ? 'active' : '' }}" href="{{ route('admin.projects.index') }}">{{ __('Projects') }}</a>
@@ -43,7 +43,8 @@
                 </li>
                 @endif
                 @else
-                <li class="nav-item dropdown">
+                <img class="img-fluid rounded-circle" style="width: 50px" src="{{ Auth::user()->userDetail?->profile_pic ? asset('storage/' . Auth::user()->userDetail->profile_pic)  : 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png' }}" alt="profile">
+                <li class="nav-item dropdown d-flex align-items-center">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }}
                     </a>
