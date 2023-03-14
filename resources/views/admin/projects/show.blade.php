@@ -42,7 +42,7 @@
             @csrf
             <button class="btn btn-small btn-danger me-2">Delete</button>
         </form>
-        <a class="btn btn-small btn-primary me-2" href="{{ route('admin.projects.index') }}">Back</a>
+        <a class="btn btn-small btn-primary me-2" @if($project->deleted_at) href="{{ route('admin.projects.trash.index') }}" @else href="{{ route('admin.projects.index') }}" @endif>Back</a>
     </div>
 </div>
 

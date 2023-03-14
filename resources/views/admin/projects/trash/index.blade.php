@@ -27,6 +27,11 @@
                         @csrf
                         <button class="btn btn-small btn-success"><i class="fa-solid fa-arrows-rotate"></i></button>
                     </form>
+                    <form class="d-inline delete-form" action="{{ route('admin.projects.trash.permanent-delete', $project->id) }}" method="POST" data-project-name="{{ $project->name }}">
+                        @method('DELETE')
+                        @csrf
+                        <button class="btn btn-small btn-danger"><i class="fa-regular fa-x"></i></button>
+                    </form>
                 </td>
             </tr> 
             @empty
@@ -41,6 +46,8 @@
     <div class="buttons d-flex justify-content-end">
         <a href="{{ route('admin.projects.index') }}" class="btn btn-small btn-secondary me-2">BACK</a>
     </div>
+
+    <div class="offset-9 col-3" >{{ $projects->links() }}</div>
 
     @include('includes.projects.delete-modal')
 

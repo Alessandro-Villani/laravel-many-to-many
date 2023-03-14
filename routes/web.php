@@ -27,6 +27,7 @@ Route::middleware(['auth', 'verified'])->name('admin.')->prefix('/admin')->group
     Route::patch('/projects/{project}/toggle-status', [ProjectController::class, 'toggleStatus'])->name('projects.toggle-status');
     Route::get('/projects/trash', [ProjectController::class, 'trash'])->name('projects.trash.index');
     Route::patch('/projects/{project}/restore', [ProjectController::class, 'restore'])->name('projects.trash.restore');
+    Route::delete('/projects/{project}/permanent-delete', [ProjectController::class, 'permanentDelete'])->name('projects.trash.permanent-delete');
     Route::resource('projects', ProjectController::class);
     Route::resource('types', TypeController::class);
     Route::resource('technologies', TechnologyController::class);

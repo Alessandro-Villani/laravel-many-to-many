@@ -143,10 +143,6 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
 
-        if ($project->hasUploadedImage()) Storage::delete($project->image_url);
-
-        if (count($project->technologies)) $project->technologies()->detach();
-
         $project->delete();
 
         return to_route('admin.projects.index')->with('message', "Il progetto <strong>" . strtoupper($project->name) . "</strong> è stato eliminato con successo")->with('type', 'success');
@@ -171,7 +167,7 @@ class ProjectController extends Controller
      */
     public function trash()
     {
-        $projects = Project::onlyTrashed()->get();
+        $projects = Project::onlyTrashed()->orderBy('deleted_at', 'DESC')->paginate(10);
 
         return view('admin.projects.trash.index', compact('projects'));
     }
@@ -184,5 +180,16 @@ class ProjectController extends Controller
         return to_route('admin.projects.index')->with('message', "Il progetto <strong>" . strtoupper($project->name) . "</strong> è stato ripristinato con successo")->with('type', 'success');
     }
 
-    //TODO permanently delete functions
+    public function permanentDelete(int $id)
+    {
+        $project = Project::onlyTrashed()->findOrFail($id);
+
+        if ($project->hasUploadedImage()) Storage::delete($project->image_url);
+
+        if (count($project->technologies)) $project->technologies()->detach();
+
+        $project->forceDelete();
+
+        return to_route('admin.projects.trash.index')->with('message', "Il progetto <strong>" . strtoupper($project->name) . "</strong> è stato eliminato definitivamente")->with('type', 'success');
+    }
 }
